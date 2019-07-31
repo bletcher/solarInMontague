@@ -1,6 +1,12 @@
 library(tidyverse)
+library(janitor)
 
-d <- read.csv(file = 'data/openpv-export-201904301246.csv', header = TRUE)
+d <- read.csv(file = 'data/MA_Statewide_PV_Data_Mass_CEC_07012019.csv', header = TRUE) %>%
+     clean_names("lower_camel")
 
-ggplot(d, aes(date_installed, size_kw)) +
+distinct(d, facilityType)
+
+dRes <- d %>% filter(facilityType == 'Residential (3 or fewer dwelling units per building)')
+
+ggplot(dRes, aes(dateInService, iCapacityDcKW)) +
   geom_point()
